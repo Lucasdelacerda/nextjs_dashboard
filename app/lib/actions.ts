@@ -37,7 +37,7 @@ export type State = {
   message?: string | null;
 };
 
-export async function createInvoice(prevState: State, formData: FormData) {
+export async function createInvoice(prevState:State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
@@ -49,6 +49,9 @@ export async function createInvoice(prevState: State, formData: FormData) {
       message: 'Missing Fields. Failed to Create Invoice.',
     };
   }
+  const amount = validatedFields.data.amount;
+  const customerId = validatedFields.data.customerId;
+  const status = validatedFields.data.status;
   const amountInCents = amount * 100; //convertendo em centavos
   const date = new Date().toISOString().split('T')[0]; //criando data formato aaaa-mm-dd
   try {

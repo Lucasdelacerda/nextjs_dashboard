@@ -4,13 +4,12 @@ import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { CardSkeleton, LatestInvoicesSkeleton, RevenueChartSkeleton } from '@/app/ui/skeletons';
-import { fetchLatestInvoices } from '@/app/lib/data'
 import CardWrapper from '@/app/ui/dashboard/cards';
 //  esse componente ele é assincrono e por isso ele pode usar o await
 export default async function Page() {
   // busca de dados
 
-  const latestInvoices = await fetchLatestInvoices();
+ 
   // trazendo informações do fetchCardData
 
 
