@@ -1,0 +1,116 @@
+React Server Components . Buscar dados com Server Components 
+Os Componentes de Servidor suportam Promises JavaScript, fornecendo uma solução para tarefas assíncronas como busca de dados nativamente. Você pode usar async/awaita sintaxe sem precisar de useEffect, useStateou outras bibliotecas de busca de dados.
+Os componentes do servidor são executados no servidor, para que você possa manter buscas de dados e lógica caras no servidor, enviando apenas o resultado ao cliente.
+Como os Server Components são executados no servidor, você pode consultar o banco de dados diretamente sem uma camada de API adicional. Isso evita que você tenha que escrever e manter código adicional.
+
+Uma "cascata" se refere a uma sequência de solicitações de rede que dependem da conclusão de solicitações anteriores. No caso de busca de dados, cada solicitação só pode começar quando a solicitação anterior tiver retornado dados.
+
+Por exemplo, precisamos esperar fetchRevenue() a execução antes de fetchLatestInvoices()começar a executar, e assim por diante.
+
+Busca de dados paralela
+Uma maneira comum de evitar cascatas é iniciar todas as solicitações de dados ao mesmo tempo — em paralelo.
+
+Em JavaScript, você pode usar oPromise.all()ouPromise.allSettled()funções para iniciar todas as promessas ao mesmo tempo. Por exemplo, em data.ts, estamos usando Promise.all()na fetchCardData()função
+
+
+Com a renderização estática, a busca e a renderização de dados acontecem no servidor no momento da compilação
+A renderização estática é útil para UI sem dados ou dados compartilhados entre usuários , como uma postagem de blog estática ou uma página de produto. Pode não ser uma boa opção para um painel que tenha dados personalizados que sejam atualizados regularmente.
+
+Com a renderização dinâmica, o conteúdo é renderizado no servidor para cada usuário no momento da solicitação
+
+ A renderização dinâmica permite que seu aplicativo exiba dados em tempo real ou atualizados com frequência
+
+
+ O streaming funciona bem com o modelo de componentes do React, pois cada componente pode ser considerado um bloco .
+
+Há duas maneiras de implementar streaming no Next.js:
+
+No nível da página, com o loading.tsxarquivo (que cria <Suspense>para você).
+No nível dos componentes, <Suspense>para um controle mais granular.
+
+Quando você cria uma nova pasta usando parênteses (), o nome não será incluído no caminho da URL. Então /dashboard/(overview)/page.tsxse torna /dashboard.
+
+Aqui, você está usando um grupo de rotas para garantir que loading.tsxse aplique somente à sua página de visão geral do painel. No entanto, você também pode usar grupos de rotas para separar seu aplicativo em seções (por exemplo, (marketing)rotas e (shop)rotas) ou por equipes para aplicativos maiores.
+
+Mas você também pode ser mais granular e transmitir componentes específicos usando React Suspense.
+
+O Suspense permite que você adie a renderização de partes do seu aplicativo até que alguma condição seja atendida (por exemplo, dados são carregados). Você pode encapsular seus componentes dinâmicos no Suspense. Então, passe a ele um componente fallback para mostrar enquanto o componente dinâmico carrega.
+
+revisar o suspense sempre que puder
+
+O local onde você coloca os limites do seu Suspense dependerá de algumas coisas:
+
+Como você quer que o usuário experimente a página enquanto ela é transmitida.
+Qual conteúdo você deseja priorizar.
+Se os componentes dependem da busca de dados.
+ é uma boa prática mover suas buscas de dados para os componentes que precisam delas e, então, encapsular esses componentes em Suspense. Mas não há nada de errado em transmitir as seções ou a página inteira se for isso que seu aplicativo precisa.
+
+ para usar o ppr deve instalar a versão canary pnpm install next@canary
+
+ Partial Prerendering – um novo modelo de renderização que permite combinar os benefícios da renderização estática e dinâmica na mesma rota
+ Um shell de rota estática que inclui a barra de navegação e informações do produto é fornecido, garantindo um carregamento inicial rápido.
+O shell deixa buracos onde conteúdo dinâmico, como o carrinho e produtos recomendados, serão carregados de forma assíncrona.
+Os furos assíncronos são transmitidos em paralelo, reduzindo o tempo geral de carregamento da página.
+
+Ele  usa o Suspense do React para adiar a renderização de partes do seu aplicativo até que alguma condição seja atendida
+
+o uso de parâmetros de pesquisa de URL ele usará parâmetros de pesquisa de URL para gerenciar o estado da pesquisa.
+URLs que podem ser marcadas e compartilhadas : como os parâmetros de pesquisa estão na URL, os usuários podem marcar o estado atual do aplicativo, incluindo suas consultas de pesquisa e filtros, para referência futura ou compartilhamento.
+Renderização do lado do servidor : parâmetros de URL podem ser consumidos diretamente no servidor para renderizar o estado inicial, facilitando o manuseio da renderização do servidor.
+Análise e rastreamento : ter consultas de pesquisa e filtros diretamente na URL facilita o rastreamento do comportamento do usuário sem exigir lógica adicional do lado do cliente.
+
+implementação da pesquisa
+useSearchParams- Permite que você acesse os parâmetros da URL atual. Por exemplo, os parâmetros de busca para esta URL /dashboard/invoices?page=1&query=pendingficariam assim: {page: '1', query: 'pending'}.
+usePathname- Permite que você leia o caminho do URL atual. Por exemplo, para a rota /dashboard/invoices, usePathnameretornaria '/dashboard/invoices'.
+useRouter- Habilita a navegação entre rotas dentro de componentes do cliente programaticamente. Há vários métodos que você pode usar.
+
+URLSearchParamsé uma API da Web que fornece métodos utilitários para manipular os parâmetros de consulta de URL. Em vez de criar uma string literal complexa, você pode usá-la para obter a string params como ?page=1&query=a
+
+o Debouncing ele manda a pesquisa para o banco de dados após o usuários parar de digitar, ao invés de usar o onChange que fica atualizando a cada digitação do usuário, quando isso é em um aplicativo com poucos usuários tudo bem, mas com vários pode se tornar um problema pois são várias solicitações ao banco de dados
+etapas do debouncing
+Evento de gatilho : quando um evento que deve ser eliminado (como um pressionamento de tecla na caixa de pesquisa) ocorre, um cronômetro é iniciado.
+Aguardar : se um novo evento ocorrer antes que o cronômetro expire, o cronômetro será zerado.
+Execução : Se o cronômetro atingir o fim da contagem regressiva, a função debounced será executada.
+
+
+As Ações do React Server permitem que você execute código assíncrono diretamente no servidor. Elas eliminam a necessidade de criar endpoints de API para mutar seus dados. Em vez disso, você escreve funções assíncronas que são executadas no servidor e podem ser invocadas a partir dos seus Componentes de Cliente ou Servidor.
+
+A segurança é uma prioridade máxima para aplicativos da web, pois eles podem ser vulneráveis ​​a várias ameaças. É aí que entram as Ações do Servidor. Elas incluem recursos como fechamentos criptografados, verificações de entrada rigorosas, hash de mensagens de erro, restrições de host e muito mais — todos trabalhando juntos para melhorar significativamente a segurança do seu aplicativo.
+
+
+
+ações do servidor para integrar formulário ao cache
+Aqui estão as etapas que você seguirá para criar uma nova fatura:
+
+Crie um formulário para capturar a entrada do usuário.
+Crie uma Ação do Servidor e invoque-a a partir do formulário.
+Dentro da sua Ação do Servidor, extraia os dados do formDataobjeto.
+Valide e prepare os dados a serem inseridos no seu banco de dados.
+Insira os dados e corrija quaisquer erros.
+Revalidar o cache e redirecionar o usuário de volta para a página de faturas.
+
+revalidatePath ele  limpa o cache e dispara uma nova solicitação para o servidor
+
+Atualização de fatura passo a passo:
+Estas são as etapas que você seguirá para atualizar uma fatura:
+
+Crie um novo segmento de rota dinâmica com a fatura id.
+Leia a fatura id nos parâmetros da página.
+Obtenha a fatura específica do seu banco de dados.
+Preencha previamente o formulário com os dados da fatura.
+Atualize os dados da fatura no seu banco de dados.
+
+ Segmentos de Rota Dinâmicos quando você não sabe o nome exato do segmento e quer criar rotas com base em dados. Podem ser títulos de postagens de blog, páginas de produtos, etc. Você pode criar segmentos de rota dinâmicos envolvendo o nome de uma pasta entre colchetes. Por exemplo,  [id],  [post]ou [slug].
+
+ O error.tsxarquivo pode ser usado para definir um limite de UI para um segmento de rota. Ele serve como um catch-all para erros inesperados e permite que você exiba uma UI de fallback para seus usuários.
+
+ o lint ele faz a varredura no site para ver questões de acessibilidade se está tudo correto, como ver se tem algum alt em alguma imagem faltando
+
+ validação de formulário existem 2 formas de se fazer uma pelo required em algumas tags e pelo servidor que é mais vantajoso pois ele ja pede no formato em que o servidor necessita, por exemplo aceitar apenas números
+
+ No desenvolvimento web, autenticação e autorização desempenham papéis diferentes:
+
+Autenticação é sobre ter certeza de que o usuário é quem ele diz ser. Você está provando sua identidade com algo que você tem, como um nome de usuário e uma senha.
+A autorização é o próximo passo. Uma vez que a identidade de um usuário é confirmada, a autorização decide quais partes do aplicativo ele tem permissão para usar.
+
+NextAuth.js abstrai grande parte da complexidade envolvida no gerenciamento de sessões, login e logout e outros aspectos da autenticação. Embora você possa implementar manualmente esses recursos, o processo pode ser demorado e propenso a erros. O NextAuth.js simplifica o processo, fornecendo uma solução unificada para autenticação em aplicativos Next.js.

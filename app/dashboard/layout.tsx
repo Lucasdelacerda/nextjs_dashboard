@@ -1,6 +1,7 @@
 //as páginas layouts são exclusivamente para UI, no caso dessa pasta ele tem um ui que é compartilhado com os que estão dentro dessa pasta e em pastas que estão dentro dessa também, em resumo um layout compartilhado
 
 import SideNav from '@/app/ui/dashboard/sidenav';
+// export const experimental_ppr = true; para caso de ppr
 //  esse children serve para atribuir as outras pastas
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
