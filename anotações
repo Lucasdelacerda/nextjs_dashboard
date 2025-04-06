@@ -114,3 +114,7 @@ Autenticação é sobre ter certeza de que o usuário é quem ele diz ser. Você
 A autorização é o próximo passo. Uma vez que a identidade de um usuário é confirmada, a autorização decide quais partes do aplicativo ele tem permissão para usar.
 
 NextAuth.js abstrai grande parte da complexidade envolvida no gerenciamento de sessões, login e logout e outros aspectos da autenticação. Embora você possa implementar manualmente esses recursos, o processo pode ser demorado e propenso a erros. O NextAuth.js simplifica o processo, fornecendo uma solução unificada para autenticação em aplicativos Next.js.
+
+É uma boa prática fazer hash de senhas antes de armazená-las em um banco de dados. O hash converte uma senha em uma sequência de caracteres de comprimento fixo, que parece aleatória, fornecendo uma camada de segurança mesmo se os dados do usuário forem expostos.
+
+os metadados fornecem detalhes adicionais sobre uma página da web. Os metadados não são visíveis para os usuários que visitam a página. Em vez disso, eles funcionam nos bastidores, incorporados ao HTML da página, geralmente dentro do <head>elemento. Essas informações ocultas são cruciais para mecanismos de busca e outros sistemas que precisam entender melhor o conteúdo da sua página da web.

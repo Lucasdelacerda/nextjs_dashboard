@@ -3,7 +3,8 @@ import { z } from 'zod';
 import postgres from 'postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 // o use server marca todas as funções exportadas dentro do arquivo como Server Actions. Essas funções de servidor podem então ser importadas e usadas em componentes Client e Server. Quaisquer funções incluídas neste arquivo que não forem usadas serão automaticamente removidas do pacote de aplicativo final.
 
@@ -96,5 +97,22 @@ export async function deleteInvoice(id: string) {
   await sql`DELETE FROM invoices WHERE id = ${id}`;
   revalidatePath('/dashboard/invoices');
 }
-
-
+// autenticação do login e senha, importa a função singnIn
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
