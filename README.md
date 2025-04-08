@@ -11,7 +11,9 @@
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Como Executar](#-como-executar)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Futuras Alterações](#-futuras-alterações)
 - [Licença](#-licença)
+
 
 ## 🚀 Sobre o Projeto
 
@@ -65,6 +67,12 @@ fluxo-digital/
 ├── tailwind.config.ts   # Configuração do Tailwind
 └── package.json         # Dependências e scripts
 ```
+
+## 🔮 Futuras Alterações
+
+### Próximas Funcionalidades
+- [ ] Cadastro de novos Clientes
+
 
 ## 📝 Licença
 
