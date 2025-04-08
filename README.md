@@ -45,7 +45,8 @@ A aplicação foi desenvolvida com foco em usabilidade e performance, utilizando
 
 ## 📦 Como Executar
 
-Clique no link 
+- Clique nesse [link](https://nextjs-dashboard-flax-five-81.vercel.app/)
+- Faça o login com os dados na tela
 
 ## 📁 Estrutura do Projeto
 
