@@ -9,6 +9,25 @@ import { fetchRevenue } from '@/app/lib/data';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
+// Função para traduzir os meses para português
+const traduzirMes = (mes: string) => {
+  const meses: { [key: string]: string } = {
+    'Jan': 'Jan',
+    'Feb': 'Fev',
+    'Mar': 'Mar',
+    'Apr': 'Abr',
+    'May': 'Mai',
+    'Jun': 'Jun',
+    'Jul': 'Jul',
+    'Aug': 'Ago',
+    'Sep': 'Set',
+    'Oct': 'Out',
+    'Nov': 'Nov',
+    'Dec': 'Dez'
+  };
+  return meses[mes] || mes;
+};
+
 export default async function RevenueChart() {
   const revenue = await fetchRevenue();
   const chartHeight = 350;
@@ -23,7 +42,8 @@ export default async function RevenueChart() {
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Recent Revenue
+        Receita Atual
+
       </h2>
       
 
@@ -47,14 +67,14 @@ export default async function RevenueChart() {
                 }}
               ></div>
               <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">
-                {month.month}
+                {traduzirMes(month.month)}
               </p>
             </div>
           ))}
         </div>
         <div className="flex items-center pb-2 pt-6">
           <CalendarIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Last 12 months</h3>
+          <h3 className="ml-2 text-sm text-gray-500 ">Últimos 12 meses</h3>
         </div>
       </div>
     </div>
